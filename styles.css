@@ -622,13 +622,11 @@ input[type="range"]::-webkit-slider-thumb:hover {
     display: flex;
     gap: 1rem;
     align-items: flex-start;
-    border-radius: 18px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.015) 0%, rgba(255, 255, 255, 0.003) 100%), var(--bg-card);
-    backdrop-filter: var(--glass-blur) saturate(180%);
-    -webkit-backdrop-filter: var(--glass-blur) saturate(180%);
+    border-radius: 16px;
+    background: var(--bg-card);
     border: 1px solid var(--border-card);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), var(--shadow-premium);
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-premium);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .stat-icon {
@@ -645,10 +643,15 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 .stat-card:hover {
     transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .stat-card:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
 }
 
 .stat-card:hover .stat-icon {
-    transform: translateY(-2px) scale(1.05);
+    transform: translateY(-1px) scale(1.03);
 }
 
 .stat-info {
@@ -664,6 +667,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 .stat-value {
+    font-family: var(--font-display);
     font-size: 1.45rem;
     font-weight: 800;
     letter-spacing: -0.5px;
@@ -680,69 +684,56 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 /* Specialized Stat Card Glow Colors */
 .glow-purple {
-    border-color: rgba(124, 58, 237, 0.15);
+    border-color: var(--color-primary-glow);
 }
 .glow-purple .stat-icon {
     color: var(--color-primary);
-    border-color: rgba(124, 58, 237, 0.25);
+    border-color: var(--color-primary-glow);
     background: var(--color-primary-glow);
-    box-shadow: 0 0 10px rgba(124, 58, 237, 0.1);
 }
 .glow-purple:hover {
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08),
-                0 16px 40px rgba(0, 0, 0, 0.65),
-                0 0 30px rgba(124, 58, 237, 0.12);
-    border-color: rgba(124, 58, 237, 0.35);
+    border-color: var(--color-primary);
+    box-shadow: 0 12px 24px var(--color-primary-glow);
 }
 
 .glow-red {
-    border-color: rgba(239, 68, 68, 0.15);
+    border-color: var(--color-danger-glow);
 }
 .glow-red .stat-icon {
     color: var(--color-danger);
-    border-color: rgba(239, 68, 68, 0.25);
+    border-color: var(--color-danger-glow);
     background: var(--color-danger-glow);
-    box-shadow: 0 0 10px rgba(239, 68, 68, 0.1);
 }
 .glow-red:hover {
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08),
-                0 16px 40px rgba(0, 0, 0, 0.65),
-                0 0 30px rgba(239, 68, 68, 0.12);
-    border-color: rgba(239, 68, 68, 0.35);
+    border-color: var(--color-danger);
+    box-shadow: 0 12px 24px var(--color-danger-glow);
 }
 
 .glow-green {
-    border-color: rgba(16, 185, 129, 0.15);
+    border-color: var(--color-success-glow);
 }
 .glow-green .stat-icon {
     color: var(--color-success);
-    border-color: rgba(16, 185, 129, 0.25);
+    border-color: var(--color-success-glow);
     background: var(--color-success-glow);
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.1);
 }
 .glow-green:hover,
 .glow-green.active {
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08),
-                0 16px 40px rgba(0, 0, 0, 0.65),
-                0 0 35px rgba(16, 185, 129, 0.18);
-    border-color: rgba(16, 185, 129, 0.45);
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.03) 0%, rgba(16, 185, 129, 0) 100%), var(--bg-card);
+    border-color: var(--color-success);
+    box-shadow: 0 12px 24px var(--color-success-glow);
 }
 
 .glow-blue {
-    border-color: rgba(59, 130, 246, 0.15);
+    border-color: var(--color-info-glow);
 }
 .glow-blue .stat-icon {
     color: var(--color-info);
-    border-color: rgba(59, 130, 246, 0.25);
+    border-color: var(--color-info-glow);
     background: var(--color-info-glow);
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.1);
 }
 .glow-blue:hover {
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08),
-                0 16px 40px rgba(0, 0, 0, 0.65),
-                0 0 30px rgba(59, 130, 246, 0.12);
-    border-color: rgba(59, 130, 246, 0.35);
+    border-color: var(--color-info);
+    box-shadow: 0 12px 24px var(--color-info-glow);
 }
 
 /* Custom Color Utility Classes */
