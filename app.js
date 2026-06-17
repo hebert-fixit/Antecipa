@@ -1396,16 +1396,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
 
     const generateScenarioTitle = (s) => {
+        let title = "";
         if (s.applyCashDiscount && s.selectedInstallment === 1) {
-            return "À Vista Crédito 1x (c/ Desc.)";
-        }
-        if (s.hasDownPayment && s.downPaymentValue > 0) {
+            title = "À Vista Crédito 1x (c/ Desc.)";
+        } else if (s.hasDownPayment && s.downPaymentValue > 0) {
             const methodLabel = s.downPaymentMethod === 'pix' ? 'PIX' : 
                                 s.downPaymentMethod === 'debit' ? 'Débito' : 
                                 s.downPaymentMethod === 'credit1x' ? 'Crédito 1x' : 'Custom';
-            return `Entrada ${methodLabel} + ${s.selectedInstallment}x`;
+            title = `Entrada ${methodLabel} + ${s.selectedInstallment}x`;
+        } else {
+            title = `Parcelamento ${s.selectedInstallment}x`;
         }
-        return `Financiamento ${s.selectedInstallment}x`;
+
+        if (s.selectedPrepayments && s.selectedPrepayments.length > 0) {
+            title += " + Antecipação";
+        }
+        return title;
     };
 
     const saveCurrentScenario = () => {
