@@ -102,20 +102,21 @@ body {
     transition: background 0.4s ease, color 0.4s ease;
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar - Match FixFlow */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 ::-webkit-scrollbar-track {
-    background: var(--scroll-track);
+    background: transparent;
 }
 ::-webkit-scrollbar-thumb {
     background: var(--scroll-thumb);
-    border-radius: 4px;
+    border-radius: 999px;
+    border: 2px solid var(--bg-card);
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-primary);
+    background: var(--fixit-hover);
 }
 
 /* Application Container */
@@ -156,29 +157,31 @@ body {
     justify-content: center;
     width: 42px;
     height: 42px;
-    background: linear-gradient(135deg, var(--color-primary), hsl(var(--hue-info), 85%, 60%));
+    background: var(--fixit-gradient);
     color: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+    box-shadow: 0 4px 15px rgba(152, 53, 209, 0.35);
     animation: float 4s ease-in-out infinite;
 }
 
 .logo-text h1 {
-    font-size: 1.25rem;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
     font-weight: 800;
     line-height: 1;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.03em;
     background: linear-gradient(90deg, var(--text-primary), var(--color-primary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .logo-text span {
-    font-size: 0.75rem;
-    font-weight: 600;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 700;
     color: var(--text-dim);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.08em;
 }
 
 .header-actions {
