@@ -414,10 +414,13 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 1; i <= n; i++) {
             let Fi = 1.0;
             if (selectedPrepayments.includes(i)) {
+                // Asaas calendar rule: each installment is paid every 32 days.
+                // Prepaying to D+1 utile implies we are prepaying a total of (32 * i - 1) days.
+                const daysToPrepay = 32 * i - 1;
                 if (prepaymentModel === 'simple') {
-                    Fi = 1 - T_ant * i;
+                    Fi = Math.max(0, 1 - (T_ant / 30) * daysToPrepay);
                 } else {
-                    Fi = 1 / Math.pow(1 + T_ant, i);
+                    Fi = 1 / Math.pow(1 + T_ant, daysToPrepay / 30);
                 }
             }
             sumF += Fi;
