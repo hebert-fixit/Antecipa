@@ -294,8 +294,12 @@
             <!-- Right Pane: Dashboard & Results -->
             <section class="results-pane">
                 <!-- Highlight Slider for selected Installment -->
-                <div class="installment-picker-header">
+                <div class="installment-picker-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
                     <h3>Simulação de Parcelas</h3>
+                    <button class="row-action-btn" id="btnSaveToComparer" style="background: var(--color-primary-glow); border: 1px solid var(--color-primary); color: var(--color-primary); padding: 0.45rem 0.85rem; border-radius: 8px; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem; cursor: pointer; transition: all 0.25s; font-family: var(--font-sans);">
+                        <i data-lucide="plus-circle" style="width: 14px; height: 14px;"></i>
+                        Comparar Simulação
+                    </button>
                 </div>
 
                 <!-- Stats Dashboard -->
@@ -345,6 +349,24 @@
                             <span class="stat-label">Custo Efetivo da Transação</span>
                             <h3 class="stat-value text-blue" id="valEffectiveCost">14,33%</h3>
                             <span class="stat-sub">Soma de todas as tarifas</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comparador de Cenários Lado a Lado -->
+                <div class="card glass comparer-card" id="comparerCard" style="margin-bottom: 1.5rem; display: none;">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem;">
+                        <div class="header-title-row" style="display: flex; align-items: center; gap: 0.5rem;">
+                            <i data-lucide="columns" style="color: var(--color-primary); width: 20px; height: 20px;"></i>
+                            <h3 style="font-size: 1.05rem; font-weight: 700; margin: 0; font-family: var(--font-display);">Comparador de Cenários</h3>
+                        </div>
+                        <button class="row-action-btn" id="btnClearComparison" style="color: var(--color-danger); font-size: 0.82rem; font-weight: 700;">
+                            <i data-lucide="trash-2" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle;"></i> Limpar Tudo
+                        </button>
+                    </div>
+                    <div class="card-body" style="padding: 1.25rem;">
+                        <div class="comparer-grid" id="comparerGrid">
+                            <!-- Colunas de cenários geradas dinamicamente via app.js -->
                         </div>
                     </div>
                 </div>
