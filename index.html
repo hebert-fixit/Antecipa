@@ -39,12 +39,12 @@
             <!-- Left Pane: Controls -->
             <section class="config-pane">
                 <!-- Quick Presets -->
-                <div class="card glass preset-card" style="margin-bottom: 1.25rem;">
-                    <div class="card-header" style="padding: 0.85rem 1.25rem;">
+                <div class="card glass preset-card" style="margin-bottom: 0.85rem;">
+                    <div class="card-header">
                         <i data-lucide="sparkles" class="header-icon" style="color: var(--color-primary); width: 16px; height: 16px;"></i>
                         <h2 style="font-size: 0.95rem; font-weight: 700; margin: 0;">Cenários Rápidos</h2>
                     </div>
-                    <div class="card-body" style="padding: 0.75rem 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div class="card-body" style="padding: 0.6rem 0.85rem; display: flex; flex-direction: column; gap: 0.4rem;">
                         <button class="preset-btn" id="presetHybrid10x">
                             <span class="preset-title">Entrada + 10x iguais</span>
                             <span class="preset-desc">Entrada R$ 6.900,00 no Pix + Cartão em 10x de R$ 1.000,00</span>
@@ -358,8 +358,8 @@
                 </div>
 
                 <!-- Comparador de Cenários Lado a Lado -->
-                <div class="card glass comparer-card" id="comparerCard" style="margin-bottom: 1.5rem; display: none;">
-                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem;">
+                <div class="card glass comparer-card" id="comparerCard" style="margin-bottom: 1rem; display: none;">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 1.25rem;">
                         <div class="header-title-row" style="display: flex; align-items: center; gap: 0.5rem;">
                             <i data-lucide="columns" style="color: var(--color-primary); width: 20px; height: 20px;"></i>
                             <h3 style="font-size: 1.05rem; font-weight: 700; margin: 0; font-family: var(--font-display);">Comparador de Cenários</h3>
@@ -368,9 +368,9 @@
                             <i data-lucide="trash-2" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle;"></i> Limpar Tudo
                         </button>
                     </div>
-                    <div class="card-body" style="padding: 1.25rem;">
+                    <div class="card-body" style="padding: 1rem;">
                         <!-- Legenda dos Badges do Comparador -->
-                        <div class="comparer-legend" style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.75rem; border-bottom: 1px dashed var(--border-card); padding-bottom: 0.6rem;">
+                        <div class="comparer-legend" style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.5rem; border-bottom: 1px dashed var(--border-card); padding-bottom: 0.5rem;">
                             <div style="display: flex; align-items: center; gap: 0.4rem;">
                                 <span class="compared-badge badge-green" style="font-size: 0.65rem; padding: 0.15rem 0.45rem;">
                                     <i data-lucide="trending-down" style="width: 11px; height: 11px;"></i> Econômico
@@ -398,14 +398,14 @@
                 </div>
 
                 <!-- Smart Optimizer Card -->
-                <div class="card glass optimizer-card" id="optimizerCard" style="margin-bottom: 1.5rem;">
-                    <div class="card-header" style="padding: 1rem 1.5rem;">
+                <div class="card glass optimizer-card" id="optimizerCard" style="margin-bottom: 1rem;">
+                    <div class="card-header" style="padding: 0.85rem 1.25rem;">
                         <i data-lucide="brain-circuit" class="header-icon" style="color: var(--color-success); width: 20px; height: 20px;"></i>
                         <h3 style="font-size: 1.05rem; font-weight: 700; margin: 0;">Inteligência Financeira & Otimizador</h3>
                     </div>
-                    <div class="card-body" style="padding: 1.25rem;">
+                    <div class="card-body" style="padding: 1rem;">
                         <!-- Legenda dos Insights -->
-                        <div class="optimizer-legend" style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.75rem; border-bottom: 1px dashed var(--border-card); padding-bottom: 0.6rem; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;">
+                        <div class="optimizer-legend" style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.5rem; border-bottom: 1px dashed var(--border-card); padding-bottom: 0.5rem; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;">
                             <div style="display: flex; align-items: center; gap: 0.4rem; color: var(--text-secondary);">
                                 <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-success); box-shadow: 0 0 6px var(--color-success); display: inline-block;"></span>
                                 <span>Economia Ativa</span>
@@ -424,7 +424,7 @@
                             </div>
                         </div>
 
-                        <div id="optimizerInsightsContainer" style="display: flex; flex-direction: column; gap: 0.85rem;">
+                        <div id="optimizerInsightsContainer" style="display: flex; flex-direction: column; gap: 0.65rem;">
                             <!-- Dynamically generated in app.js -->
                         </div>
                     </div>
@@ -433,7 +433,7 @@
 
 
                 <!-- Selective Prepayment Simulation Card -->
-                <div class="card glass selective-card" id="selectiveCard" style="margin-bottom: 1.5rem;">
+                <div class="card glass selective-card" id="selectiveCard" style="margin-bottom: 1rem;">
                     <div class="card-header selective-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
                         <div class="header-title-row">
                             <i data-lucide="check-square" class="header-icon"></i>
@@ -446,15 +446,15 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <p class="table-subtitle" style="margin-bottom: 1rem;">Marque as parcelas que deseja adiantar (D+1) ou desmarque para deixá-las no vencimento original:</p>
+                        <p class="table-subtitle" style="margin-bottom: 0.85rem;">Marque as parcelas que deseja adiantar (D+1) ou desmarque para deixá-las no vencimento original:</p>
                         
                         <!-- Dynamic Checkbox list -->
-                        <div class="selective-list" id="selectiveList" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <div class="selective-list" id="selectiveList" style="display: flex; flex-direction: column; gap: 0.4rem;">
                             <!-- Dynamically generated in app.js -->
                         </div>
                         
                         <!-- Summary metrics -->
-                        <div class="dashboard-grid" style="grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-top: 1.25rem; border-top: 1px solid var(--border-card); padding-top: 1rem;">
+                        <div class="dashboard-grid" style="grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-top: 0.85rem; border-top: 1px solid var(--border-card); padding-top: 0.75rem;">
                             <div class="bracket-item" style="padding: 0.65rem;">
                                 <span class="bracket-label">Valor Antecipado (D+1)</span>
                                 <h4 class="text-green" id="selValAnt" style="font-size: 1.15rem; font-weight: 800; margin-top: 0.2rem;">R$ 0,00</h4>
