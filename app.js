@@ -380,16 +380,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const downPaymentRate = hasDownPayment ? (downPaymentRateOverride !== null ? downPaymentRateOverride : state.downPaymentRate) : 0.00;
         const T_down = downPaymentRate / 100;
 
-        // Apply cash discount if enabled and appropriate
+        // Apply cash discount if enabled and appropriate (universally applies to total sales price)
         let activeBaseValue = baseValue;
-        if (state.applyCashDiscount && (n === 1 || n === 2)) {
+        if (state.applyCashDiscount) {
             activeBaseValue = baseValue * (1 - (state.cashDiscountPct / 100));
         }
 
+        // Down payment remains raw and nominal, serving as a direct deduction of the discounted total
         let activeDownPaymentVal = downPaymentVal;
-        if (state.applyCashDiscount && hasDownPayment) {
-            activeDownPaymentVal = downPaymentVal * (1 - (state.cashDiscountPct / 100));
-        }
 
         const V_down_net = activeDownPaymentVal * (1 - T_down);
         const Fee_down = activeDownPaymentVal * T_down;
@@ -430,12 +428,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. Compute flow based on absorption scenario
         if (absorptionModel === 'absorb') {
             // Check if down payment is larger than total charge
-            if (hasDownPayment && downPaymentVal >= activeBaseValue) {
+            if (hasDownPayment && activeDownPaymentVal >= activeBaseValue) {
                 downPaymentErrorActive = true;
                 V_buyer_installments = 0;
             } else {
-                const nominal_installments = hasDownPayment ? (baseValue - downPaymentVal) : baseValue;
-                V_buyer_installments = (state.applyCashDiscount && (n === 1 || n === 2)) ? (nominal_installments * (1 - (state.cashDiscountPct / 100))) : nominal_installments;
+                V_buyer_installments = hasDownPayment ? (activeBaseValue - activeDownPaymentVal) : activeBaseValue;
             }
 
             V_buyer = activeDownPaymentVal + V_buyer_installments;
