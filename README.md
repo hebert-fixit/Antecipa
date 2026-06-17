@@ -13,6 +13,9 @@
 * **Dual Fee-Absorption Models**:
   * **Absorb**: The merchant absorbs all credit card and prepayment transaction fees.
   * **Pass (Reverso)**: The merchant passes all fees to the customer, automatically calculating the reverse installment value so the merchant receives the exact desired net payout.
+* **Interactive Side-by-Side Scenario Comparer**: Save and compare up to 3 distinct simulation scenarios side-by-side. Displays installment details, prepayment states, and automatically applies semantic tags ("Econômico", "Rápido", "Eficiente") and highlights the absolute "Melhor Opção" with a premium glowing border.
+* **Efficiency Sparklines**: The comparison table features elegant inline stacked-bar sparklines that visually represent the ratio of Net Received (emerald green) vs. Total Fees (crimson red) with precise percentages for immediate financial clarity.
+* **Global Spacing & High-Density Polish**: Designed with a high-density, compact layout that fits modern 13"/14" laptop screens, minimizing scroll fatigue and emphasizing essential data points without clipping currency values.
 
 ---
 
