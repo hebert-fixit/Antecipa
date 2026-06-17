@@ -1,84 +1,88 @@
-/* ==========================================
-   Antecipa CSS Design System
-   Modern Premium Dark & Light Glassmorphic Theme
-   ========================================== */
-
-/* Design Tokens & CSS Variables */
+/* Design Tokens & CSS Variables - Replicated from FixFlow Design System */
 :root {
-    /* Color Palette - HSL (Hue, Saturation, Lightness) */
-    --hue-primary: 250; /* Indigo/Violet base */
-    --hue-success: 142; /* Emerald base */
-    --hue-danger: 347;  /* Coral/Red base */
-    --hue-info: 217;    /* Blue base */
+    /* Brand palette (from Fixit colors_and_type.css) */
+    --fixit-white:        #FEFEFE;
+    --fixit-lilac:        #CE7AFF;
+    --fixit-purple:       #9835D1;   /* Primary Brand Color */
+    --fixit-purple-deep:  #583D9C;
+    --fixit-hover:        #6E00AD;
     
-    /* Font family */
-    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    /* Signature Gradients */
+    --fixit-gradient: linear-gradient(90deg, #9835D1 0%, #583D9C 100%);
+    --fixit-gradient-soft: linear-gradient(135deg, #CE7AFF 0%, #9835D1 100%);
+    
+    /* Shadows */
+    --shadow-purple: 0 8px 24px rgba(152, 53, 209, 0.28);
+    
+    /* Font families */
+    --font-display: "Exo", "Exo 2", system-ui, -apple-system, sans-serif;
+    --font-sans: "Roboto", "Inter", system-ui, -apple-system, sans-serif;
 }
 
-/* Dark Theme Variables (Default) - Obsidian Luxe */
+/* Dark Theme Variables - Fixit Dark Corporate */
 [data-theme="dark"] {
-    --bg-app: radial-gradient(circle at 50% 50%, hsl(240, 15%, 7%) 0%, hsl(240, 15%, 3%) 100%);
-    --bg-card: rgba(18, 19, 31, 0.55);
-    --border-card: rgba(255, 255, 255, 0.05);
-    --text-primary: hsl(210, 40%, 98%);
-    --text-secondary: hsl(215, 15%, 70%);
-    --text-dim: hsl(215, 12%, 50%);
+    --bg-app: radial-gradient(circle at 50% 50%, #2F3136 0%, #202225 100%);
+    --bg-card: #292B2F;
+    --border-card: #393D42;
+    --text-primary: #FEFEFE;
+    --text-secondary: #828386;
+    --text-dim: #5C5C5C;
     
-    --color-primary: hsl(250, 85%, 65%);
-    --color-primary-glow: rgba(124, 58, 237, 0.12);
-    --color-success: hsl(142, 70%, 50%);
-    --color-success-glow: rgba(16, 185, 129, 0.12);
-    --color-danger: hsl(347, 80%, 55%);
-    --color-danger-glow: rgba(239, 68, 68, 0.12);
-    --color-info: hsl(217, 85%, 60%);
-    --color-info-glow: rgba(59, 130, 246, 0.12);
+    --color-primary: var(--fixit-lilac);
+    --color-primary-glow: rgba(206, 122, 255, 0.12);
+    --color-success: #03BD70;
+    --color-success-glow: rgba(3, 189, 112, 0.12);
+    --color-danger: #F84A4B;
+    --color-danger-glow: rgba(248, 74, 75, 0.12);
+    --color-info: #0088FF;
+    --color-info-glow: rgba(0, 136, 255, 0.12);
     
-    --input-bg: rgba(8, 9, 17, 0.65);
-    --input-border: rgba(255, 255, 255, 0.08);
-    --input-focus-border: hsl(250, 85%, 65%);
-    --input-focus-glow: rgba(124, 58, 237, 0.25);
+    --input-bg: #202225;
+    --input-border: #393D42;
+    --input-focus-border: var(--fixit-lilac);
+    --input-focus-glow: rgba(206, 122, 255, 0.25);
     
-    --table-header-bg: rgba(12, 13, 23, 0.8);
-    --table-row-hover: rgba(255, 255, 255, 0.015);
+    --table-header-bg: #202225;
+    --table-row-hover: rgba(206, 122, 255, 0.05);
     
-    --shadow-premium: 0 10px 40px rgba(0, 0, 0, 0.5);
+    --shadow-premium: 0 10px 30px rgba(0, 0, 0, 0.35);
     --glass-blur: blur(14px);
     
-    --scroll-track: hsl(240, 15%, 3%);
-    --scroll-thumb: hsl(240, 12%, 12%);
+    --scroll-track: #202225;
+    --scroll-thumb: var(--fixit-purple);
 }
 
-/* Light Theme Variables - Slate Premium */
+/* Light Theme Variables - Fixit Clean Premium (Official FixFlow) */
 [data-theme="light"] {
-    --bg-app: linear-gradient(135deg, hsl(210, 40%, 96%) 0%, hsl(210, 40%, 90%) 100%);
-    --bg-card: rgba(255, 255, 255, 0.7);
-    --border-card: rgba(15, 23, 42, 0.06);
-    --text-primary: hsl(222, 47%, 11%);
-    --text-secondary: hsl(215, 25%, 27%);
-    --text-dim: hsl(215, 16%, 47%);
+    --bg-app: #FAFAFA;
+    --bg-card: #FFFFFF;
+    --border-card: #ECECEC;
+    --text-primary: #1B1B1F;
+    --text-secondary: #5C5C5C;
+    --text-dim: #8A8C90;
     
-    --color-primary: hsl(250, 75%, 55%);
-    --color-primary-glow: rgba(99, 102, 241, 0.1);
-    --color-success: hsl(142, 72%, 35%);
-    --color-success-glow: rgba(16, 185, 129, 0.1);
-    --color-danger: hsl(347, 75%, 48%);
-    --color-danger-glow: rgba(220, 38, 38, 0.1);
-    --color-info: hsl(217, 75%, 48%);
-    --color-info-glow: rgba(37, 99, 235, 0.1);
+    --color-primary: var(--fixit-purple);
+    --color-primary-glow: rgba(152, 53, 209, 0.08);
+    --color-success: #03BD70;
+    --color-success-glow: rgba(3, 189, 112, 0.08);
+    --color-danger: #E5484D;
+    --color-danger-glow: rgba(229, 72, 77, 0.06);
+    --color-info: #0088FF;
+    --color-info-glow: rgba(0, 136, 255, 0.06);
     
-    --input-bg: rgba(255, 255, 255, 0.85);
-    --input-border: rgba(15, 23, 42, 0.08);
-    --input-focus-border: hsl(250, 75%, 55%);
-    --input-focus-glow: rgba(99, 102, 241, 0.2);
+    --input-bg: #FFFFFF;
+    --input-border: #D6D6D6;
+    --input-focus-border: var(--fixit-purple);
+    --input-focus-glow: rgba(152, 53, 209, 0.15);
     
-    --table-header-bg: rgba(241, 245, 249, 0.85);
-    --table-row-hover: rgba(15, 23, 42, 0.012);
+    --table-header-bg: #F7F7F7;
+    --table-row-hover: #FAF1FE;
     
-    --shadow-premium: 0 10px 40px rgba(15, 23, 42, 0.04);
-    --glass-blur: blur(12px);
+    --shadow-premium: 0 4px 12px rgba(20, 20, 30, 0.06);
+    --glass-blur: none;
     
-    --scroll-track: hsl(210, 40%, 96%);
-    --scroll-thumb: hsl(210, 20%, 80%);
+    --scroll-track: transparent;
+    --scroll-thumb: var(--fixit-purple);
 }
 
 /* CSS Reset & General Styles */
