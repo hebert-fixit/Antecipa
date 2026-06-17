@@ -1787,6 +1787,12 @@ input:checked + .slider-switch:before {
     border: 1px solid rgba(152, 53, 209, 0.2);
 }
 
+.compared-badge.badge-red {
+    background: var(--color-danger-glow);
+    color: var(--color-danger);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
 .btn-compared-load {
     width: 100%;
     background: var(--color-primary);

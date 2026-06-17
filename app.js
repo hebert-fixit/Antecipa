@@ -1932,13 +1932,38 @@ document.addEventListener('DOMContentLoaded', () => {
             row.className = `insight-row ${ins.type}`;
             const formattedText = ins.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
             
+            let badgeText = '';
+            let badgeClass = '';
+            
+            switch (ins.type) {
+                case 'success-cost':
+                    badgeText = 'Economia Ativa';
+                    badgeClass = 'badge-green';
+                    break;
+                case 'primary-cost':
+                    badgeText = 'Boa Prática';
+                    badgeClass = 'badge-purple';
+                    break;
+                case 'info-cost':
+                    badgeText = 'Dica Estratégica';
+                    badgeClass = 'badge-blue';
+                    break;
+                case 'warning-cost':
+                    badgeText = 'Alerta de Custos';
+                    badgeClass = 'badge-red';
+                    break;
+            }
+            
             row.innerHTML = `
                 <div class="insight-icon-container ${ins.iconClass}">
                     <i data-lucide="${ins.icon}" style="width: 18px; height: 18px;"></i>
                 </div>
                 <div class="insight-content">
-                    <span class="insight-title">${ins.title}</span>
-                    <span class="insight-text">${formattedText}</span>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                        <span class="insight-title">${ins.title}</span>
+                        <span class="compared-badge ${badgeClass}" style="font-size: 0.6rem; padding: 0.1rem 0.4rem; text-transform: uppercase;">${badgeText}</span>
+                    </div>
+                    <span class="insight-text" style="margin-top: 0.25rem; display: block;">${formattedText}</span>
                 </div>
             `;
             elements.optimizerInsightsContainer.appendChild(row);
