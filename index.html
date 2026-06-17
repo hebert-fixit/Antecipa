@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antecipa | Simulador de Antecipação Premium</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons via CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i data-lucide="trending-up"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Antecipa</h1>
+                    <span>Fintech Tools</span>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <div class="theme-toggle" id="themeToggle" title="Alternar Tema">
+                    <i data-lucide="sun" class="sun-icon"></i>
+                    <i data-lucide="moon" class="moon-icon"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Layout -->
+        <main class="app-main">
+            <!-- Left Pane: Controls -->
+            <section class="config-pane">
+                <!-- Quick Presets -->
+                <div class="card glass preset-card" style="margin-bottom: 1.25rem;">
+                    <div class="card-header" style="padding: 0.85rem 1.25rem;">
+                        <i data-lucide="sparkles" class="header-icon" style="color: var(--color-primary); width: 16px; height: 16px;"></i>
+                        <h2 style="font-size: 0.95rem; font-weight: 700; margin: 0;">Cenários Rápidos</h2>
+                    </div>
+                    <div class="card-body" style="padding: 0.75rem 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                        <button class="preset-btn" id="presetHybrid10x">
+                            <span class="preset-title">Entrada + 10x iguais</span>
+                            <span class="preset-desc">Entrada R$ 6.900,00 no Pix + Cartão em 10x de R$ 1.000,00</span>
+                        </button>
+                        <button class="preset-btn" id="presetParc12x">
+                            <span class="preset-title">Total em 12x Iguais</span>
+                            <span class="preset-desc">R$ 16.900,00 no Cartão em 12x de R$ 1.408,33 (Sem Entrada)</span>
+                        </button>
+                        <button class="preset-btn" id="presetVistaAnt">
+                            <span class="preset-title">Total à Vista Antecipado</span>
+                            <span class="preset-desc">R$ 15.717,00 no Crédito 1x (Recebe em D+1)</span>
+                        </button>
+                        <button class="preset-btn" id="presetVista2x">
+                            <span class="preset-title">Total à Vista em 2x (Entrada + 1x)</span>
+                            <span class="preset-desc">Entrada R$ 7.858,50 no Pix + 1x de R$ 7.858,50 no Pix</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card glass">
+                    <div class="card-header">
+                        <i data-lucide="sliders-horizontal" class="header-icon"></i>
+                        <h2>Configurações de Venda</h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        <!-- Charge Value Input -->
+                        <div class="input-group">
+                            <label for="chargeValue">Valor da Cobrança</label>
+                            <div class="currency-input-wrapper">
+                                <span class="currency-prefix">R$</span>
+                                <input type="text" id="chargeValue" value="16.900,00" placeholder="0,00" autocomplete="off">
+                            </div>
+                            <span class="input-helper">Insira o valor bruto da venda ou o valor líquido desejado.</span>
+                        </div>
+
+                        <!-- Quantidade de Parcelas Input -->
+                        <div class="input-group">
+                            <label for="selectedInstallment">Parcelas no Cartão</label>
+                            <select id="selectedInstallment" class="custom-select">
+                                <option value="1">1x (À Vista)</option>
+                                <option value="2">2x</option>
+                                <option value="3">3x</option>
+                                <option value="4">4x</option>
+                                <option value="5">5x</option>
+                                <option value="6">6x</option>
+                                <option value="7">7x</option>
+                                <option value="8">8x</option>
+                                <option value="9">9x</option>
+                                <option value="10">10x</option>
+                                <option value="11">11x</option>
+                                <option value="12" selected>12x</option>
+                                <option value="13">13x</option>
+                                <option value="14">14x</option>
+                                <option value="15">15x</option>
+                                <option value="16">16x</option>
+                                <option value="17">17x</option>
+                                <option value="18">18x</option>
+                                <option value="19">19x</option>
+                                <option value="20">20x</option>
+                                <option value="21">21x</option>
+                            </select>
+                            <span class="input-helper">Escolha o número de parcelas para o saldo financiado no cartão.</span>
+                        </div>
+
+                        <!-- Cash Discount (Desconto à Vista) Bento Control -->
+                        <div class="input-group">
+                            <div class="switch-row" style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-card-highlight); padding: 0.65rem 0.85rem; border-radius: 8px; border: 1px solid var(--border-card);">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <label class="switch" style="margin-bottom: 0;">
+                                        <input type="checkbox" id="applyCashDiscount" checked>
+                                        <span class="slider-switch"></span>
+                                    </label>
+                                    <label style="margin-bottom: 0; cursor: pointer; font-size: 0.9rem; font-weight: 600;" for="applyCashDiscount">Desconto à Vista</label>
+                                </div>
+                                <div id="cashDiscountInputWrapper" style="display: flex; align-items: center; gap: 0.35rem; transition: all 0.25s ease;">
+                                    <div class="percent-input-wrapper-small" style="width: 75px; margin-bottom: 0;">
+                                        <input type="number" id="cashDiscountPct" value="7.00" step="0.01" min="0" max="100" style="padding: 0.35rem 0.5rem; font-size: 0.85rem;">
+                                        <span class="percent-suffix-small">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Down Payment (Entrada) Option -->
+                        <div class="input-group">
+                            <div class="switch-row" style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-card-highlight); padding: 0.65rem 0.85rem; border-radius: 8px; border: 1px solid var(--border-card);">
+                                <label style="margin-bottom: 0; cursor: pointer; font-size: 0.9rem; font-weight: 600;" for="hasDownPayment">Deseja adicionar entrada?</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="hasDownPayment">
+                                    <span class="slider-switch"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Down Payment Panel (Collapsible) -->
+                        <div class="collapsible-panel" id="downPaymentPanel" style="max-height: 0; overflow: hidden; transition: max-height 0.35s ease-out, margin 0.35s ease-out, opacity 0.3s ease-out; opacity: 0; margin-bottom: 0;">
+                            <div class="bracket-grid" style="grid-template-columns: 1fr; gap: 0.75rem; margin-top: 0.25rem; background: var(--bg-card-highlight); padding: 0.85rem; border-radius: 8px; border: 1px dashed var(--border-card);">
+                                <div class="bracket-item" style="display: flex; flex-direction: column; gap: 0.35rem;">
+                                    <label for="downPaymentValue" style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary);">Valor da Entrada (R$)</label>
+                                    <div class="currency-input-wrapper-small">
+                                        <span class="currency-prefix-small">R$</span>
+                                        <input type="text" id="downPaymentValue" value="0,00" placeholder="0,00" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="bracket-item" style="display: flex; flex-direction: column; gap: 0.35rem;">
+                                    <label for="downPaymentMethod" style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary);">Meio de Recebimento</label>
+                                    <select id="downPaymentMethod" class="custom-select" style="padding: 0.45rem 0.75rem; font-size: 0.85rem; height: 36px; border-radius: 6px;">
+                                        <option value="pix" selected>PIX / Dinheiro (Taxa: 0,00%)</option>
+                                        <option value="debit">Cartão de Débito (Taxa: 1,99%)</option>
+                                        <option value="credit1x">Cartão de Crédito 1x (À Vista)</option>
+                                        <option value="custom">Taxa Customizada</option>
+                                    </select>
+                                </div>
+                                <div class="bracket-item" style="display: flex; flex-direction: column; gap: 0.35rem;">
+                                    <label for="downPaymentRate" style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary);">Taxa da Entrada (%)</label>
+                                    <div class="percent-input-wrapper-small">
+                                        <input type="number" id="downPaymentRate" value="0.00" step="0.01" min="0" max="100">
+                                        <span class="percent-suffix-small">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="downPaymentError" class="text-red" style="font-size: 0.8rem; font-weight: 600; margin-top: 0.5rem; display: none;">
+                                <i data-lucide="alert-triangle" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin-right: 4px;"></i>
+                                A entrada deve ser menor que o valor da cobrança.
+                            </div>
+                        </div>
+
+                        <!-- Who Pays Toggle -->
+                        <div class="input-group">
+                            <label>Quem paga as taxas?</label>
+                            <div class="segmented-control">
+                                <button class="segment-btn active" id="btnAbsorb" data-value="absorb">
+                                    <i data-lucide="percent" class="btn-icon"></i>
+                                    Vendedor Absorve
+                                </button>
+                                <button class="segment-btn" id="btnPass" data-value="pass">
+                                    <i data-lucide="arrow-right-left" class="btn-icon"></i>
+                                    Repasse ao Cliente
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Card Fee Brackets (Grid) -->
+                        <div class="input-group">
+                            <label>Taxas do Cartão por Faixa (%)</label>
+                            <div class="bracket-grid">
+                                <div class="bracket-item">
+                                    <span class="bracket-label">1x (À Vista)</span>
+                                    <div class="percent-input-wrapper-small">
+                                        <input type="number" id="cardRate1" value="2.77" step="0.01" min="0" max="100">
+                                        <span class="percent-suffix-small">%</span>
+                                    </div>
+                                </div>
+                                <div class="bracket-item">
+                                    <span class="bracket-label">2x a 6x</span>
+                                    <div class="percent-input-wrapper-small">
+                                        <input type="number" id="cardRate2_6" value="3.35" step="0.01" min="0" max="100">
+                                        <span class="percent-suffix-small">%</span>
+                                    </div>
+                                </div>
+                                <div class="bracket-item">
+                                    <span class="bracket-label">7x a 12x</span>
+                                    <div class="percent-input-wrapper-small">
+                                        <input type="number" id="cardRate7_12" value="3.69" step="0.01" min="0" max="100">
+                                        <span class="percent-suffix-small">%</span>
+                                    </div>
+                                </div>
+                                <div class="bracket-item">
+                                    <span class="bracket-label">13x a 21x</span>
+                                    <div class="percent-input-wrapper-small">
+                                        <input type="number" id="cardRate13_21" value="4.29" step="0.01" min="0" max="100">
+                                        <span class="percent-suffix-small">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fixed Fee Input -->
+                        <div class="input-group">
+                            <label for="fixedFee">Tarifa Fixa (R$)</label>
+                            <div class="currency-input-wrapper-small">
+                                <span class="currency-prefix-small">R$</span>
+                                <input type="number" id="fixedFee" value="0.29" step="0.01" min="0">
+                            </div>
+                        </div>
+
+                        <!-- Prepayment Type Toggle -->
+                        <div class="input-group">
+                            <label>Tipo de Antecipação</label>
+                            <div class="segmented-control">
+                                <button class="segment-btn active" id="btnAntManual" data-value="manual">
+                                    <i data-lucide="hand" class="btn-icon"></i>
+                                    Manual
+                                </button>
+                                <button class="segment-btn" id="btnAntAuto" data-value="auto">
+                                    <i data-lucide="zap" class="btn-icon"></i>
+                                    Automática
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Prepayment Rates (Grid) -->
+                        <div class="input-group">
+                            <label>Taxas de Antecipação Mensal (%)</label>
+                            <div class="bracket-grid">
+                                <div class="bracket-item">
+                                    <span class="bracket-label">À Vista (1x)</span>
+                                    <div class="percent-input-wrapper-small">
+                                        <input type="number" id="antRateVista" value="1.25" step="0.01" min="0" max="100">
+                                        <span class="percent-suffix-small">%</span>
+                                    </div>
+                                </div>
+                                <div class="bracket-item">
+                                    <span class="bracket-label">Parcelado (2x+)</span>
+                                    <div class="percent-input-wrapper-small">
+                                        <input type="number" id="antRateParc" value="1.70" step="0.01" min="0" max="100">
+                                        <span class="percent-suffix-small">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Prepayment Model Selector -->
+                        <div class="input-group">
+                            <label for="prepaymentModel">Modelo de Antecipação</label>
+                            <select id="prepaymentModel" class="custom-select">
+                                <option value="simple" selected>Juros Simples (Padrão de Mercado)</option>
+                                <option value="compound">Juros Compostos</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Helper Box -->
+                <div class="card glass info-card">
+                    <div class="info-icon">
+                        <i data-lucide="info"></i>
+                    </div>
+                    <div class="info-text">
+                        <h4 id="helperTitle">Como funciona o cálculo?</h4>
+                        <p id="helperText">No modo <strong>Vendedor Absorve</strong>, o comprador paga o valor exato de R$ 16.900,00. As taxas do cartão e de antecipação são descontadas do repasse que você recebe.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Pane: Dashboard & Results -->
+            <section class="results-pane">
+                <!-- Highlight Slider for selected Installment -->
+                <div class="installment-picker-header">
+                    <h3>Simulação de Parcelas</h3>
+                </div>
+
+                <!-- Stats Dashboard -->
+                <div class="dashboard-grid">
+                    <!-- Card: Total Paid -->
+                    <div class="stat-card glass glow-purple">
+                        <div class="stat-icon">
+                            <i data-lucide="shopping-cart"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label" id="labelTotalPaid">Total Pago pelo Cliente</span>
+                            <h3 class="stat-value" id="valTotalPaid">R$ 16.900,00</h3>
+                            <span class="stat-sub" id="subTotalPaid">12x de R$ 1.408,33</span>
+                        </div>
+                    </div>
+
+                    <!-- Card: Total Fees -->
+                    <div class="stat-card glass glow-red">
+                        <div class="stat-icon">
+                            <i data-lucide="ticket-minus"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total de Taxas e Descontos</span>
+                            <h3 class="stat-value text-red" id="valTotalFees">R$ 2.422,41</h3>
+                            <span class="stat-sub" id="subTotalFees">3,69% cartão + 11,05% antecipação</span>
+                        </div>
+                    </div>
+
+                    <!-- Card: Net Received -->
+                    <div class="stat-card glass glow-green active">
+                        <div class="stat-icon">
+                            <i data-lucide="wallet"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Valor Líquido Recebido</span>
+                            <h3 class="stat-value text-green animate-pulse" id="valNetReceived">R$ 14.477,59</h3>
+                            <span class="stat-sub" id="subNetReceived">Disponível em D+1 útil</span>
+                        </div>
+                    </div>
+
+                    <!-- Card: Effective Cost -->
+                    <div class="stat-card glass glow-blue">
+                        <div class="stat-icon">
+                            <i data-lucide="activity"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Custo Efetivo da Transação</span>
+                            <h3 class="stat-value text-blue" id="valEffectiveCost">14,33%</h3>
+                            <span class="stat-sub">Soma de todas as tarifas</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Smart Optimizer Card -->
+                <div class="card glass optimizer-card" id="optimizerCard" style="margin-bottom: 1.5rem;">
+                    <div class="card-header" style="padding: 1rem 1.5rem;">
+                        <i data-lucide="brain-circuit" class="header-icon" style="color: var(--color-success); width: 20px; height: 20px;"></i>
+                        <h3 style="font-size: 1.05rem; font-weight: 700; margin: 0;">Inteligência Financeira & Otimizador</h3>
+                    </div>
+                    <div class="card-body" style="padding: 1.25rem;">
+                        <div id="optimizerInsightsContainer" style="display: flex; flex-direction: column; gap: 0.85rem;">
+                            <!-- Dynamically generated in app.js -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visual Chart Section -->
+                <div class="card glass chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <i data-lucide="bar-chart-3"></i>
+                            <h3>Distribuição de Custos por Parcela</h3>
+                        </div>
+                        <div class="chart-legend">
+                            <span class="legend-item"><span class="color-dot bg-green"></span> Líquido Recebido</span>
+                            <span class="legend-item"><span class="color-dot bg-red"></span> Taxas Totais</span>
+                        </div>
+                    </div>
+                    <div class="chart-body">
+                        <!-- Responsive SVG container for bars -->
+                        <div class="svg-container" id="chartContainer">
+                            <!-- SVG will be generated programmatically here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selective Prepayment Simulation Card -->
+                <div class="card glass selective-card" id="selectiveCard" style="margin-bottom: 1.5rem;">
+                    <div class="card-header selective-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                        <div class="header-title-row">
+                            <i data-lucide="check-square" class="header-icon"></i>
+                            <h3>Simulação de Antecipação Seletiva</h3>
+                        </div>
+                        <div class="selective-quick-actions" style="display: flex; gap: 0.75rem; font-size: 0.82rem; font-weight: 700;">
+                            <button class="row-action-btn" id="btnSelectAll" style="color: var(--color-success);">Antecipar Todas</button>
+                            <span style="color: var(--border-card);">|</span>
+                            <button class="row-action-btn" id="btnDeselectAll" style="color: var(--text-dim);">Receber no Fluxo</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="table-subtitle" style="margin-bottom: 1rem;">Marque as parcelas que deseja adiantar (D+1) ou desmarque para deixá-las no vencimento original:</p>
+                        
+                        <!-- Dynamic Checkbox list -->
+                        <div class="selective-list" id="selectiveList" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <!-- Dynamically generated in app.js -->
+                        </div>
+                        
+                        <!-- Summary metrics -->
+                        <div class="dashboard-grid" style="grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-top: 1.25rem; border-top: 1px solid var(--border-card); padding-top: 1rem;">
+                            <div class="bracket-item" style="padding: 0.65rem;">
+                                <span class="bracket-label">Valor Antecipado (D+1)</span>
+                                <h4 class="text-green" id="selValAnt" style="font-size: 1.15rem; font-weight: 800; margin-top: 0.2rem;">R$ 0,00</h4>
+                            </div>
+                            <div class="bracket-item" style="padding: 0.65rem;">
+                                <span class="bracket-label">Valor Agendado (Fluxo)</span>
+                                <h4 class="text-blue" id="selValFluxo" style="font-size: 1.15rem; font-weight: 800; margin-top: 0.2rem;">R$ 0,00</h4>
+                            </div>
+                            <div class="bracket-item" style="padding: 0.65rem;">
+                                <span class="bracket-label">Custo da Antecipação</span>
+                                <h4 class="text-red" id="selValCost" style="font-size: 1.15rem; font-weight: 800; margin-top: 0.2rem;">R$ 0,00</h4>
+                            </div>
+                            <div class="bracket-item" style="padding: 0.65rem; background: var(--color-primary-glow);">
+                                <span class="bracket-label">Líquido Total Final</span>
+                                <h4 class="text-primary" id="selValNet" style="font-size: 1.15rem; font-weight: 800; margin-top: 0.2rem; color: var(--color-primary);">R$ 0,00</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Table -->
+                <div class="card glass table-card">
+                    <div class="card-header table-header">
+                        <div class="header-title-row">
+                            <i data-lucide="table"></i>
+                            <h3>Tabela de Parcelamentos (Comparativo Completo)</h3>
+                        </div>
+                        <span class="table-subtitle">Compare valores recebidos e tarifas de 1x até 12x</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Parcela</th>
+                                    <th>Valor Parcela</th>
+                                    <th>Taxa Cartão</th>
+                                    <th>Desconto Antecipação</th>
+                                    <th>Líquido Recebido</th>
+                                    <th>Custo Total %</th>
+                                </tr>
+                            </thead>
+                            <tbody id="comparisonTableBody">
+                                <!-- Generated programmatically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Detailed Drawer / Modal for single installment details (hidden by default) -->
+        <div class="drawer-overlay" id="drawerOverlay">
+            <div class="drawer glass">
+                <button class="drawer-close" id="btnDrawerClose">
+                    <i data-lucide="x"></i>
+                </button>
+                <div class="drawer-header">
+                    <h3 id="drawerTitle">Detalhamento da Simulação - 12x</h3>
+                    <p>Memória de cálculo e distribuição das taxas</p>
+                </div>
+                <div class="drawer-body">
+                    <div class="drawer-section">
+                        <h4>Fluxo de Caixa</h4>
+                        <ul class="calculation-flow" id="calculationFlow">
+                            <li>
+                                <span class="flow-label">Valor bruto cobrado</span>
+                                <span class="flow-value" id="calcGrossValue">R$ 16.900,00</span>
+                            </li>
+                            <li>
+                                <span class="flow-label text-red">Taxa de intermediação (cartão)</span>
+                                <span class="flow-value text-red" id="calcCardFee">- R$ 623,90</span>
+                            </li>
+                            <li class="flow-separator">
+                                <span class="flow-label text-dim">Líquido antes de antecipar</span>
+                                <span class="flow-value text-dim" id="calcNetBeforeAnt">R$ 16.276,10</span>
+                            </li>
+                            <li>
+                                <span class="flow-label text-red">Taxa de antecipação (11,05%)</span>
+                                <span class="flow-value text-red" id="calcAntFee">- R$ 1.798,51</span>
+                            </li>
+                            <li class="flow-total">
+                                <span class="flow-label text-green">Valor Líquido Recebido</span>
+                                <span class="flow-value text-green" id="calcNetReceived">R$ 14.477,59</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="drawer-section">
+                        <h4>Antecipação Parcela por Parcela (D+1)</h4>
+                        <div class="mini-table-container">
+                            <table class="mini-table">
+                                <thead>
+                                    <tr>
+                                        <th>Parcela</th>
+                                        <th>Vencimento</th>
+                                        <th>Valor Líquido</th>
+                                        <th>Fator Meses</th>
+                                        <th id="drawerTableDiscountHeader">Desconto (1,7%/m)</th>
+                                        <th>Valor Pago</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="drawerTableBody">
+                                    <!-- Programmatically generated list of installments -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>Antecipa Fintech Tools &copy; 2026. Desenvolvido com foco em alta fidelidade e design premium.</p>
+        </footer>
+    </div>
+
+    <!-- Lucide Icons initialization script -->
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>
