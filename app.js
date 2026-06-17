@@ -1612,6 +1612,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
+            const prepayments = sc.details.selectedPrepayments || [];
+            let prepaymentDetailText = "Nenhuma (no fluxo)";
+            let prepaymentColorStyle = "var(--text-dim)";
+            
+            if (prepayments.length > 0) {
+                if (prepayments.length === sc.details.n) {
+                    prepaymentDetailText = sc.details.n === 1 ? "100% Antecipado (D+1)" : `Todas as ${sc.details.n} parc. (D+1)`;
+                    prepaymentColorStyle = "var(--color-success)";
+                } else {
+                    prepaymentDetailText = `Parc: ${prepayments.join(', ')} (${prepayments.length} de ${sc.details.n})`;
+                    prepaymentColorStyle = "var(--color-info)";
+                }
+            }
+
+            let downPaymentRowHtml = "";
+            if (sc.details.hasDownPayment && sc.details.downPaymentVal > 0) {
+                const methodLabel = sc.state.downPaymentMethod === 'pix' ? 'PIX' : 
+                                    sc.state.downPaymentMethod === 'debit' ? 'Débito' : 
+                                    sc.state.downPaymentMethod === 'credit1x' ? 'Crédito 1x' : 'Outro';
+                downPaymentRowHtml = `
+                    <div class="compared-detail-row">
+                        <span class="detail-label">Entrada (${methodLabel}):</span>
+                        <span class="detail-value">${formatBRL(sc.details.downPaymentVal)}</span>
+                    </div>
+                `;
+            }
+
+            const modelLabel = sc.state.prepaymentModel === 'simple' ? 'Simples (Asaas)' : 'Composto';
+
             column.innerHTML = `
                 <div class="compared-header">
                     <div class="compared-title-area">
@@ -1637,6 +1666,22 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span class="compared-metric-label">${absorptionLabel}</span>
                         <span class="compared-metric-value">${formatBRL(sc.details.V_buyer)}</span>
                         <span class="compared-metric-sub">${installmentInfoText}</span>
+                    </div>
+                    
+                    <div class="compared-details-block">
+                        ${downPaymentRowHtml}
+                        <div class="compared-detail-row">
+                            <span class="detail-label">Plano de Cartão:</span>
+                            <span class="detail-value">${sc.details.n}x de ${formatBRL(sc.details.instVal)}</span>
+                        </div>
+                        <div class="compared-detail-row">
+                            <span class="detail-label">Juros Antecipação:</span>
+                            <span class="detail-value">${modelLabel}</span>
+                        </div>
+                        <div class="compared-detail-row">
+                            <span class="detail-label">Parc. Antecipadas:</span>
+                            <span class="detail-value" style="color: ${prepaymentColorStyle};">${prepaymentDetailText}</span>
+                        </div>
                     </div>
                 </div>
                 <div class="compared-badges">
