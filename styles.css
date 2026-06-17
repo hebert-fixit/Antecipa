@@ -902,7 +902,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
     background: var(--table-header-bg);
     color: var(--text-secondary);
     font-weight: 700;
-    padding: 1rem 1.25rem;
+    padding: 0.75rem 0.85rem;
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -910,7 +910,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 .comparison-table td {
-    padding: 1rem 1.25rem;
+    padding: 0.75rem 0.85rem;
     border-bottom: 1px solid var(--border-card);
     color: var(--text-primary);
     font-weight: 600;
@@ -955,6 +955,44 @@ input[type="range"]::-webkit-slider-thumb:hover {
 .row-action-btn:hover {
     transform: translateX(3px);
     text-shadow: 0 0 8px var(--color-primary-glow);
+}
+
+/* Sparkline Inline Progress Bar styles */
+.sparkline-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    width: 130px;
+}
+
+.sparkline-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.sparkline-bar {
+    display: flex;
+    height: 7px;
+    width: 100%;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--input-bg);
+    border: 1px solid var(--border-card);
+}
+
+.sparkline-segment-net {
+    background: linear-gradient(90deg, hsl(142, 70%, 50%), hsl(142, 70%, 40%));
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.sparkline-segment-fee {
+    background: linear-gradient(90deg, hsl(347, 80%, 55%), hsl(347, 80%, 45%));
+    height: 100%;
+    transition: width 0.3s ease;
 }
 
 /* Detailed Drawer / Overlay Panel Styles */
