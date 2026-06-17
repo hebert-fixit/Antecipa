@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         helperText: document.getElementById('helperText'),
         
         // Output Containers
-        chartContainer: document.getElementById('chartContainer'),
+        chartContainer: document.getElementById('drawerChartContainer'),
         comparisonTableBody: document.getElementById('comparisonTableBody'),
         tableSubtitle: document.querySelector('.table-subtitle'),
         
@@ -666,7 +666,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 tr.classList.add('selected-row');
             }
             
-            // Build the row elements
+            const netPct = 100 - res.effectiveCostPct;
+            const feePct = res.effectiveCostPct;
+            
+            // Build the row elements with inline sparklines
             tr.innerHTML = `
                 <td><strong>${res.n}x</strong></td>
                 <td>${formatBRL(res.instVal)}</td>
@@ -674,12 +677,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td class="text-red">${formatBRL(res.Fee_ant)}</td>
                 <td class="text-green">${formatBRL(res.V_received)}</td>
                 <td>
-                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                        <span>${res.effectiveCostPct.toFixed(1)}%</span>
-                        <button class="row-action-btn" data-n="${res.n}">
-                            Detalhar <i data-lucide="chevron-right" style="width: 12px; height: 12px;"></i>
-                        </button>
+                    <div class="sparkline-wrapper">
+                        <div class="sparkline-labels">
+                            <span class="text-green">${netPct.toFixed(1)}%</span>
+                            <span class="text-red">${feePct.toFixed(1)}%</span>
+                        </div>
+                        <div class="sparkline-bar">
+                            <div class="sparkline-segment-net" style="width: ${netPct}%" title="Líquido Recebido: ${netPct.toFixed(1)}%"></div>
+                            <div class="sparkline-segment-fee" style="width: ${feePct}%" title="Taxas Totais: ${feePct.toFixed(1)}%"></div>
+                        </div>
                     </div>
+                </td>
+                <td style="text-align: right;">
+                    <button class="row-action-btn" data-n="${res.n}" style="margin-left: auto;">
+                        Detalhar <i data-lucide="chevron-right" style="width: 12px; height: 12px;"></i>
+                    </button>
                 </td>
             `;
             
@@ -1101,6 +1113,9 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             elements.drawerTableBody.appendChild(tr);
         }
+        
+        // Draw the vertical installment bar chart inside the drawer for this specific foccused plan!
+        renderChart(details);
         
         elements.drawerOverlay.classList.add('active');
     };
