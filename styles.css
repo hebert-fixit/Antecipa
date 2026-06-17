@@ -431,7 +431,7 @@ body {
     border-radius: 6px;
     font-size: 0.75rem;
     font-weight: 700;
-    border: 1px solid rgba(124, 58, 237, 0.2);
+    border: 1px solid var(--color-primary-glow);
 }
 
 /* Custom Select Dropdown */
@@ -459,7 +459,7 @@ body {
 .custom-select:focus,
 .compact-select:focus {
     border-color: var(--input-focus-border);
-    box-shadow: 0 0 10px var(--input-focus-glow);
+    box-shadow: 0 0 15px var(--input-focus-glow);
 }
 
 /* Compact Select in Results Pane Header */
@@ -497,7 +497,7 @@ body {
     font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .segment-btn .btn-icon {
@@ -510,9 +510,9 @@ body {
 }
 
 .segment-btn.active {
-    background: linear-gradient(135deg, var(--color-primary), hsl(var(--hue-primary), 85%, 55%));
+    background: var(--fixit-gradient);
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    box-shadow: var(--shadow-purple);
 }
 
 /* Styled HTML5 Range Slider */
@@ -540,34 +540,36 @@ input[type="range"]::-webkit-slider-thumb {
     border-radius: 50%;
     background: var(--color-primary);
     cursor: pointer;
-    box-shadow: 0 0 10px var(--color-primary-glow), 0 2px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px var(--color-primary-glow), 0 2px 4px rgba(20, 20, 30, 0.15);
     transition: transform 0.1s, background-color 0.3s;
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
     transform: scale(1.2);
-    background: hsl(var(--hue-primary), 85%, 70%);
+    background: var(--fixit-hover);
 }
 
-/* Info Live Helper Card */
+/* Info Live Helper Card - Match FixFlow Info Style */
 .info-card {
     display: flex;
     flex-direction: row;
     gap: 1rem;
     padding: 1.25rem;
-    background: var(--color-info-glow);
-    border: 1px solid rgba(59, 130, 246, 0.15);
+    background: var(--color-primary-glow);
+    border: 1px solid var(--color-primary-glow);
+    border-radius: 12px;
     margin-top: 1rem;
 }
 
 .info-icon {
     display: flex;
     align-items: flex-start;
-    color: var(--color-info);
+    color: var(--color-primary);
     margin-top: 0.1rem;
 }
 
 .info-text h4 {
+    font-family: var(--font-display);
     font-size: 0.9rem;
     font-weight: 700;
     color: var(--text-primary);
