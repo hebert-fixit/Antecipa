@@ -1376,42 +1376,31 @@ input:checked + .slider-switch:before {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(59, 130, 246, 0.01);
-    border: 1px solid rgba(59, 130, 246, 0.12);
+    background: var(--input-bg);
+    border: 1px solid var(--border-card);
     border-radius: 12px;
     padding: 0.75rem 1.15rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
-}
-
-[data-theme="light"] .selective-item {
-    background: rgba(59, 130, 246, 0.02);
-    border-color: rgba(59, 130, 246, 0.08);
+    box-shadow: var(--shadow-premium);
 }
 
 .selective-item:hover {
-    border-color: rgba(59, 130, 246, 0.25);
-    background: rgba(59, 130, 246, 0.025);
+    border-color: var(--color-primary);
+    background: var(--color-primary-glow);
     transform: translateY(-1px);
-}
-
-[data-theme="light"] .selective-item:hover {
-    background: rgba(59, 130, 246, 0.04);
 }
 
 /* Active / Prepaid highlight */
 .selective-item.prepaid {
-    border-color: rgba(16, 185, 129, 0.35);
-    background: rgba(16, 185, 129, 0.045);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 
-                0 4px 15px rgba(16, 185, 129, 0.03);
+    border-color: var(--color-success);
+    background: var(--color-success-glow);
+    box-shadow: 0 4px 15px var(--color-success-glow);
 }
 
 .selective-item.prepaid:hover {
-    border-color: rgba(16, 185, 129, 0.55);
-    background: rgba(16, 185, 129, 0.06);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 
-                0 6px 20px rgba(16, 185, 129, 0.06);
+    border-color: var(--color-success);
+    background: var(--color-success-glow);
+    box-shadow: 0 6px 20px var(--color-success-glow);
 }
 
 /* Selective Item left details container */
