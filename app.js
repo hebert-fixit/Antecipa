@@ -81,7 +81,13 @@ document.addEventListener('DOMContentLoaded', () => {
         presetVistaAnt: document.getElementById('presetVistaAnt'),
         presetVista2x: document.getElementById('presetVista2x'),
         presetParc12x: document.getElementById('presetParc12x'),
-        optimizerInsightsContainer: document.getElementById('optimizerInsightsContainer')
+        optimizerInsightsContainer: document.getElementById('optimizerInsightsContainer'),
+        
+        // Scenario Comparer
+        btnSaveToComparer: document.getElementById('btnSaveToComparer'),
+        comparerCard: document.getElementById('comparerCard'),
+        comparerGrid: document.getElementById('comparerGrid'),
+        btnClearComparison: document.getElementById('btnClearComparison')
     };
 
     // Global State
@@ -104,7 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
         antRateParc: 1.70,
         prepaymentModel: 'simple', // 'simple' or 'compound'
         selectedInstallment: 10,
-        selectedPrepayments: []
+        selectedPrepayments: [],
+        comparedScenarios: []
     };
 
     // Format utility helpers
@@ -1341,6 +1348,334 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // ==========================================
+    // Scenario Comparer Side-by-Side Logic
+    // ==========================================
+
+    const generateScenarioTitle = (s) => {
+        if (s.applyCashDiscount && s.selectedInstallment === 1) {
+            return "À Vista Crédito 1x (c/ Desc.)";
+        }
+        if (s.hasDownPayment && s.downPaymentValue > 0) {
+            const methodLabel = s.downPaymentMethod === 'pix' ? 'PIX' : 
+                                s.downPaymentMethod === 'debit' ? 'Débito' : 
+                                s.downPaymentMethod === 'credit1x' ? 'Crédito 1x' : 'Custom';
+            return `Entrada ${methodLabel} + ${s.selectedInstallment}x`;
+        }
+        return `Financiamento ${s.selectedInstallment}x`;
+    };
+
+    const saveCurrentScenario = () => {
+        if (state.comparedScenarios.length >= 3) {
+            alert("Você já atingiu o limite de 3 cenários para comparação. Remova um cenário existente para adicionar um novo.");
+            return;
+        }
+
+        const allResults = calculateAllInstallments();
+        const activeDetails = allResults[state.selectedInstallment - 1];
+
+        const stateCopy = {
+            baseValue: state.baseValue,
+            applyCashDiscount: state.applyCashDiscount,
+            cashDiscountPct: state.cashDiscountPct,
+            hasDownPayment: state.hasDownPayment,
+            downPaymentValue: state.downPaymentValue,
+            downPaymentMethod: state.downPaymentMethod,
+            downPaymentRate: state.downPaymentRate,
+            absorptionModel: state.absorptionModel,
+            cardRate1: state.cardRate1,
+            cardRate2_6: state.cardRate2_6,
+            cardRate7_12: state.cardRate7_12,
+            cardRate13_21: state.cardRate13_21,
+            fixedFee: state.fixedFee,
+            prepaymentType: state.prepaymentType,
+            antRateVista: state.antRateVista,
+            antRateParc: state.antRateParc,
+            prepaymentModel: state.prepaymentModel,
+            selectedInstallment: state.selectedInstallment,
+            selectedPrepayments: [...state.selectedPrepayments]
+        };
+
+        const detailsCopy = {
+            V_buyer: activeDetails.V_buyer,
+            V_received: activeDetails.V_received,
+            totalFees: activeDetails.totalFees,
+            effectiveCostPct: activeDetails.effectiveCostPct,
+            instVal: activeDetails.instVal,
+            n: activeDetails.n,
+            hasDownPayment: activeDetails.hasDownPayment,
+            downPaymentVal: activeDetails.downPaymentVal,
+            downPaymentMethod: activeDetails.downPaymentMethod,
+            downPaymentRate: activeDetails.downPaymentRate,
+            Fee_down: activeDetails.Fee_down,
+            V_down_net: activeDetails.V_down_net,
+            V_buyer_installments: activeDetails.V_buyer_installments,
+            V_received_installments: activeDetails.V_received_installments,
+            selectedPrepayments: [...activeDetails.selectedPrepayments],
+            installmentFactors: [...activeDetails.installmentFactors],
+            installments: activeDetails.installments.map(inst => ({ ...inst }))
+        };
+
+        state.comparedScenarios.push({
+            state: stateCopy,
+            details: detailsCopy,
+            title: generateScenarioTitle(stateCopy)
+        });
+
+        renderScenarioComparer();
+    };
+
+    const removeScenario = (index) => {
+        state.comparedScenarios.splice(index, 1);
+        renderScenarioComparer();
+    };
+
+    const clearComparison = () => {
+        state.comparedScenarios = [];
+        renderScenarioComparer();
+    };
+
+    const loadScenario = (index) => {
+        const saved = state.comparedScenarios[index];
+        if (!saved) return;
+
+        // Load state
+        state = {
+            ...state,
+            baseValue: saved.state.baseValue,
+            applyCashDiscount: saved.state.applyCashDiscount,
+            cashDiscountPct: saved.state.cashDiscountPct,
+            hasDownPayment: saved.state.hasDownPayment,
+            downPaymentValue: saved.state.downPaymentValue,
+            downPaymentMethod: saved.state.downPaymentMethod,
+            downPaymentRate: saved.state.downPaymentRate,
+            absorptionModel: saved.state.absorptionModel,
+            cardRate1: saved.state.cardRate1,
+            cardRate2_6: saved.state.cardRate2_6,
+            cardRate7_12: saved.state.cardRate7_12,
+            cardRate13_21: saved.state.cardRate13_21,
+            fixedFee: saved.state.fixedFee,
+            prepaymentType: saved.state.prepaymentType,
+            antRateVista: saved.state.antRateVista,
+            antRateParc: saved.state.antRateParc,
+            prepaymentModel: saved.state.prepaymentModel,
+            selectedInstallment: saved.state.selectedInstallment,
+            selectedPrepayments: [...saved.state.selectedPrepayments]
+        };
+
+        // Update DOM inputs to match loaded state
+        elements.chargeValue.value = new Intl.NumberFormat('pt-BR', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(state.baseValue);
+
+        elements.applyCashDiscount.checked = state.applyCashDiscount;
+        if (state.applyCashDiscount) {
+            elements.cashDiscountInputWrapper.style.opacity = '1';
+            elements.cashDiscountInputWrapper.style.pointerEvents = 'auto';
+        } else {
+            elements.cashDiscountInputWrapper.style.opacity = '0.3';
+            elements.cashDiscountInputWrapper.style.pointerEvents = 'none';
+        }
+        elements.cashDiscountPct.value = state.cashDiscountPct.toFixed(2);
+
+        elements.hasDownPayment.checked = state.hasDownPayment;
+        if (state.hasDownPayment) {
+            elements.downPaymentPanel.classList.add('expanded');
+        } else {
+            elements.downPaymentPanel.classList.remove('expanded');
+        }
+        elements.downPaymentValue.value = new Intl.NumberFormat('pt-BR', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(state.downPaymentValue);
+        elements.downPaymentMethod.value = state.downPaymentMethod;
+        elements.downPaymentRate.value = state.downPaymentRate.toFixed(2);
+
+        elements.selectedInstallment.value = state.selectedInstallment;
+
+        // Segment controls
+        if (state.absorptionModel === 'absorb') {
+            elements.btnAbsorb.classList.add('active');
+            elements.btnPass.classList.remove('active');
+            elements.helperTitle.textContent = "Como funciona o cálculo?";
+            elements.helperText.innerHTML = "No modo <strong>Vendedor Absorve</strong>, o comprador paga o valor nominal de sua venda. As taxas do cartão e de antecipação são deduzidas, reduzindo o seu repasse líquido.";
+        } else {
+            elements.btnPass.classList.add('active');
+            elements.btnAbsorb.classList.remove('active');
+            elements.helperTitle.textContent = "Como funciona o repasse?";
+            elements.helperText.innerHTML = "No modo <strong>Repasse ao Cliente</strong>, recalculamos o valor cobrado do comprador para que, após descontadas todas as taxas, você receba <strong>exatamente</strong> o valor desejado.";
+        }
+
+        if (state.prepaymentType === 'manual') {
+            elements.btnAntManual.classList.add('active');
+            elements.btnAntAuto.classList.remove('active');
+        } else {
+            elements.btnAntAuto.classList.add('active');
+            elements.btnAntManual.classList.remove('active');
+        }
+
+        elements.cardRate1.value = state.cardRate1.toFixed(2);
+        elements.cardRate2_6.value = state.cardRate2_6.toFixed(2);
+        elements.cardRate7_12.value = state.cardRate7_12.toFixed(2);
+        elements.cardRate13_21.value = state.cardRate13_21.toFixed(2);
+        elements.fixedFee.value = state.fixedFee.toFixed(2);
+        elements.antRateVista.value = state.antRateVista.toFixed(2);
+        elements.antRateParc.value = state.antRateParc.toFixed(2);
+        elements.prepaymentModel.value = state.prepaymentModel;
+
+        // Run recalculation and update UI
+        calculateAndRender();
+    };
+
+    const renderScenarioComparer = () => {
+        if (!elements.comparerCard || !elements.comparerGrid) return;
+
+        if (state.comparedScenarios.length === 0) {
+            elements.comparerCard.style.display = 'none';
+            elements.comparerGrid.innerHTML = '';
+            return;
+        }
+
+        elements.comparerCard.style.display = 'block';
+        elements.comparerGrid.innerHTML = '';
+
+        let minFees = Infinity;
+        let minCostPct = Infinity;
+        
+        if (state.comparedScenarios.length > 1) {
+            state.comparedScenarios.forEach(sc => {
+                if (sc.details.totalFees < minFees) {
+                    minFees = sc.details.totalFees;
+                }
+                if (sc.details.effectiveCostPct < minCostPct) {
+                    minCostPct = sc.details.effectiveCostPct;
+                }
+            });
+        }
+
+        state.comparedScenarios.forEach((sc, idx) => {
+            const isBestChoice = state.comparedScenarios.length > 1 && sc.details.totalFees === minFees;
+            const column = document.createElement('div');
+            column.className = `compared-column ${isBestChoice ? 'best-choice' : ''}`;
+
+            let totalFluxo = 0;
+            sc.details.installments.forEach((inst, i) => {
+                const isPrepaid = sc.details.selectedPrepayments.includes(i + 1);
+                const Fi = sc.details.installmentFactors[i];
+                const finalPaidInst = inst.netBeforeAnt * Fi;
+                if (!isPrepaid) {
+                    totalFluxo += finalPaidInst;
+                }
+            });
+
+            let availabilityText = "";
+            if (sc.details.selectedPrepayments.length === sc.details.n) {
+                availabilityText = "100% em D+1";
+            } else if (sc.details.selectedPrepayments.length === 0) {
+                availabilityText = "Mês a mês no fluxo";
+            } else {
+                availabilityText = `${formatBRL(totalFluxo)} no fluxo`;
+            }
+
+            let installmentInfoText = "";
+            if (sc.details.hasDownPayment && sc.details.downPaymentVal > 0) {
+                installmentInfoText = `Entrada: ${formatBRL(sc.details.downPaymentVal)} + ${sc.details.n}x de ${formatBRL(sc.details.instVal)}`;
+            } else {
+                installmentInfoText = `${sc.details.n}x de ${formatBRL(sc.details.instVal)}`;
+            }
+
+            const absorptionLabel = sc.state.absorptionModel === 'pass' ? "Cobrado do Cliente" : "Pago pelo Cliente";
+
+            let badgesHtml = "";
+            if (state.comparedScenarios.length > 1) {
+                if (sc.details.totalFees === minFees) {
+                    badgesHtml += `
+                        <span class="compared-badge badge-green">
+                            <i data-lucide="trending-down" style="width: 11px; height: 11px;"></i> Econômico
+                        </span>
+                    `;
+                }
+                if (totalFluxo === 0) {
+                    badgesHtml += `
+                        <span class="compared-badge badge-blue">
+                            <i data-lucide="zap" style="width: 11px; height: 11px;"></i> Rápido
+                        </span>
+                    `;
+                }
+                if (sc.details.effectiveCostPct === minCostPct) {
+                    badgesHtml += `
+                        <span class="compared-badge badge-purple">
+                            <i data-lucide="activity" style="width: 11px; height: 11px;"></i> Eficiente
+                        </span>
+                    `;
+                }
+            }
+
+            column.innerHTML = `
+                <div class="compared-header">
+                    <div class="compared-title-area">
+                        <span class="compared-title">${sc.title}</span>
+                        <span class="compared-config">Cobrança: ${formatBRL(sc.state.baseValue)} | ${sc.state.absorptionModel === 'pass' ? 'Repasse' : 'Absorve'}</span>
+                    </div>
+                    <button class="btn-compared-remove" data-index="${idx}" title="Remover Cenário">
+                        <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+                    </button>
+                </div>
+                <div class="compared-metrics">
+                    <div class="compared-metric-group">
+                        <span class="compared-metric-label">Líquido Recebido</span>
+                        <span class="compared-metric-value large text-green">${formatBRL(sc.details.V_received)}</span>
+                        <span class="compared-metric-sub">Disponibilidade: ${availabilityText}</span>
+                    </div>
+                    <div class="compared-metric-group">
+                        <span class="compared-metric-label">Total de Taxas</span>
+                        <span class="compared-metric-value text-red">${formatBRL(sc.details.totalFees)}</span>
+                        <span class="compared-metric-sub">Custo Efetivo: ${sc.details.effectiveCostPct.toFixed(2)}%</span>
+                    </div>
+                    <div class="compared-metric-group">
+                        <span class="compared-metric-label">${absorptionLabel}</span>
+                        <span class="compared-metric-value">${formatBRL(sc.details.V_buyer)}</span>
+                        <span class="compared-metric-sub">${installmentInfoText}</span>
+                    </div>
+                </div>
+                <div class="compared-badges">
+                    ${badgesHtml}
+                </div>
+                <button class="btn-compared-load" data-index="${idx}">
+                    <i data-lucide="play" style="width: 12px; height: 12px;"></i> Carregar Cenário
+                </button>
+            `;
+
+            column.querySelector('.btn-compared-remove').addEventListener('click', (e) => {
+                e.stopPropagation();
+                removeScenario(idx);
+            });
+
+            column.querySelector('.btn-compared-load').addEventListener('click', (e) => {
+                e.stopPropagation();
+                loadScenario(idx);
+            });
+
+            elements.comparerGrid.appendChild(column);
+        });
+
+        lucide.createIcons();
+    };
+
+    const initComparer = () => {
+        if (elements.btnSaveToComparer) {
+            elements.btnSaveToComparer.addEventListener('click', () => {
+                saveCurrentScenario();
+            });
+        }
+        if (elements.btnClearComparison) {
+            elements.btnClearComparison.addEventListener('click', () => {
+                clearComparison();
+            });
+        }
+    };
+
     // Render Dynamic Financial Advisor Insights
     const renderOptimizer = (activeDetails, allResults) => {
         if (!elements.optimizerInsightsContainer) return;
@@ -1603,6 +1938,8 @@ document.addEventListener('DOMContentLoaded', () => {
         initDrawer();
         initSelectivePrepayment();
         initPresets();
+        initComparer();
+        renderScenarioComparer();
         
         // Initial Preset Load (Default to Scenario 1 / presetHybrid10x)
         if (elements.presetHybrid10x) {
