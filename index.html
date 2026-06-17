@@ -362,25 +362,7 @@
                     </div>
                 </div>
 
-                <!-- Visual Chart Section -->
-                <div class="card glass chart-card">
-                    <div class="chart-header">
-                        <div class="chart-title">
-                            <i data-lucide="bar-chart-3"></i>
-                            <h3>Distribuição de Custos por Parcela</h3>
-                        </div>
-                        <div class="chart-legend">
-                            <span class="legend-item"><span class="color-dot bg-green"></span> Líquido Recebido</span>
-                            <span class="legend-item"><span class="color-dot bg-red"></span> Taxas Totais</span>
-                        </div>
-                    </div>
-                    <div class="chart-body">
-                        <!-- Responsive SVG container for bars -->
-                        <div class="svg-container" id="chartContainer">
-                            <!-- SVG will be generated programmatically here -->
-                        </div>
-                    </div>
-                </div>
+
 
                 <!-- Selective Prepayment Simulation Card -->
                 <div class="card glass selective-card" id="selectiveCard" style="margin-bottom: 1.5rem;">
@@ -443,7 +425,8 @@
                                     <th>Taxa Cartão</th>
                                     <th>Desconto Antecipação</th>
                                     <th>Líquido Recebido</th>
-                                    <th>Custo Total %</th>
+                                    <th style="width: 140px; text-align: center;">Eficiência (Líquido vs Taxas)</th>
+                                    <th style="text-align: right;">Ação</th>
                                 </tr>
                             </thead>
                             <tbody id="comparisonTableBody">
@@ -466,6 +449,15 @@
                     <p>Memória de cálculo e distribuição das taxas</p>
                 </div>
                 <div class="drawer-body">
+                    <div class="drawer-section" style="margin-bottom: 0.5rem;">
+                        <h4 style="display: flex; align-items: center; gap: 0.4rem;">
+                            <i data-lucide="bar-chart-3" style="width: 16px; height: 16px; color: var(--color-primary);"></i>
+                            Distribuição das Parcelas
+                        </h4>
+                        <div class="svg-container" id="drawerChartContainer" style="margin-top: 0.5rem; background: var(--bg-card-highlight); padding: 0.5rem; border-radius: 8px; border: 1px solid var(--border-card);">
+                            <!-- SVG will be generated programmatically here -->
+                        </div>
+                    </div>
                     <div class="drawer-section">
                         <h4>Fluxo de Caixa</h4>
                         <ul class="calculation-flow" id="calculationFlow">
