@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Presets & Optimizer
         presetHybrid10x: document.getElementById('presetHybrid10x'),
+        presetHybridDisc10x: document.getElementById('presetHybridDisc10x'),
         presetVistaAnt: document.getElementById('presetVistaAnt'),
         presetVista2x: document.getElementById('presetVista2x'),
         presetParc12x: document.getElementById('presetParc12x'),
@@ -1239,6 +1240,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 elements.selectedInstallment.value = "10";
                 elements.cardRate1.value = "2.77";
                 elements.antRateVista.value = "1.25";
+                elements.fixedFee.value = "0.29";
+
+                calculateAndRender();
+            });
+        }
+
+        if (elements.presetHybridDisc10x) {
+            elements.presetHybridDisc10x.addEventListener('click', () => {
+                state.baseValue = 16900.00;
+                state.applyCashDiscount = true;
+                state.cashDiscountPct = 7.00;
+                state.hasDownPayment = true;
+                state.downPaymentValue = 5717.00;
+                state.downPaymentMethod = 'pix';
+                state.downPaymentRate = 0.00;
+                state.selectedInstallment = 10;
+                state.selectedPrepayments = [];
+                state.cardRate1 = 2.77;
+                state.cardRate2_6 = 3.35;
+                state.cardRate7_12 = 3.69;
+                state.cardRate13_21 = 4.29;
+                state.antRateVista = 1.25;
+                state.antRateParc = 1.70;
+                state.fixedFee = 0.29;
+
+                elements.chargeValue.value = "16.900,00";
+                elements.applyCashDiscount.checked = true;
+                elements.cashDiscountInputWrapper.style.opacity = '1';
+                elements.cashDiscountInputWrapper.style.pointerEvents = 'auto';
+                elements.cashDiscountPct.value = "7.00";
+                elements.hasDownPayment.checked = true;
+                elements.downPaymentPanel.classList.add('expanded');
+                elements.downPaymentValue.value = "5.717,00";
+                elements.downPaymentMethod.value = "pix";
+                elements.downPaymentRate.value = "0.00";
+                elements.selectedInstallment.value = "10";
+                elements.cardRate1.value = "2.77";
+                elements.cardRate2_6.value = "3.35";
+                elements.cardRate7_12.value = "3.69";
+                elements.cardRate13_21.value = "4.29";
+                elements.antRateVista.value = "1.25";
+                elements.antRateParc.value = "1.70";
                 elements.fixedFee.value = "0.29";
 
                 calculateAndRender();
